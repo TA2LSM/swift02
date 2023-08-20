@@ -202,3 +202,79 @@ import Foundation
 
 //--- 16. CLASS ---
 
+class Game {
+    private (set) var status: String = ""
+    private (set) var currentPlayer: String = "player1"
+    private (set) var level: Int = -1
+    
+    func changePlayer() {
+        if currentPlayer == "player1" {
+            currentPlayer = "player2"
+        } else {
+            currentPlayer = "player1"
+        }
+    }
+}
+
+//let game = Game()       // new game. "let" means game's memory address is fixed not member's values in the class
+//let game2 = game        // reference type copy NOT like struct (value type, copy on write)
+//let game3 = Game()      // new game
+//game.changePlayer()
+//
+//// these two below have same values. game 3 is different
+//game.currentPlayer
+//game2.currentPlayer
+//game3.currentPlayer
+
+// struct OR class
+// 1. Immutability
+//struct User {
+//    var name: String
+//}
+//var user1 = User(name: "user1")     // memberwise initializer
+//var user2 = user1
+//user2.name = "user2"        // user1 will stay unchanged
+//print(user1, user2)
+//
+//// 2. Memory: user3 and user4 example below
+//class User_c {
+//    var name: String
+//
+//    init (name: String) {
+//        self.name = name
+//    }
+//}
+//var user3 = User_c(name: "user3")
+//var user4 = user3
+//user4.name = "user4"        // user3 will also change
+//print(user3.name, user4.name)
+//
+//// value type copy
+//var db1: Double = 1.2
+//var db2 = db1
+//db2 = 1.5
+//print(db1, db2)             // db1 and db2 are different values
+//
+//// reference type copy (this part is not in the lesson)
+//var db3: UnsafeMutablePointer<Double> = .init(&db1)        // like this >> double db3 = &db1
+//db3.pointee = 2.0
+//print("db1 memory address: \(UnsafeRawPointer(&db1)) and value: \(db1)")
+//print("db3 memory address: \(UnsafeRawPointer(&db3)), reference: \(db3) and value: \(db3.pointee)")
+//
+////3. class has deinitialization (will be spoken in later)
+//
+//// identity operator
+//let game1 = Game()
+//let game2 = Game()
+//let game3 = game1
+//
+//// === is an identity operator / == is for equatable. This two are DIFFERENT
+//if game1 === game2 {
+//    print("game1 and game2 have same reference")
+//} else if game1 === game3 {
+//    print("game1 and game3 have same reference")
+//}
+
+
+
+//--- 17. DEINITIALIZATION ---
