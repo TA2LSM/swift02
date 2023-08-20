@@ -80,4 +80,125 @@ import Foundation
 
 //--- 13. ACCESS MODIFIERS ---
 
+// fileprivate, open, public...
+//struct Person {
+//    var fullName: String
+//    private (set) var age: Int
+//    // not possible to set this value when generating Person struct
+//    // but it can be accessible from outside
+//
+//    init(fullname: String, age: Int = 40) {
+//        self.fullName = fullname
+//        self.age = age
+//    }
+//
+//    // without mutating, it is not possible to change age
+//    mutating func yearPassed() {
+//        self.age += 1
+//        logYearPassed()
+//    }
+//
+//    // not accessible from outside
+//    private func logYearPassed() {
+//        print("one more year passed!")
+//    }
+//}
+//
+////var person = Person(fullName: "", age: -1)      // age is not accessible
+////person.age += 1                                 // age is not accessible
+//
+//var person = Person(fullname: "")
+//print(2023 - person.age)
+//person.yearPassed()
+//print(person)
+
+
+
+//--- 14. PROPERTY OBSERVERS ---
+
+
+//struct Person {
+//    // MARK: 1. public variables
+//    var fullName: String {
+//        // when fullname has been changed
+//        didSet {
+//            nameChanged()
+//        }
+//        willSet {
+//            print("full name will be changed from \(fullName) to \(newValue)")  // newValue is a special keyword
+//        }
+//    }
+//    var age: Int {
+//        didSet {
+//            print("New age is: \(age)")
+//            ageChanged()
+//        }
+//    }
+//
+//    // MARK: 2. private variables
+//    private var birthYear: Int = 0
+//
+//    // MARK: 3. initializers
+//    init (fullname: String, age: Int) {
+//        self.fullName = fullname
+//        self.age = age
+//        ageChanged()
+//    }
+//
+//    // MARK: 4. public and private methods
+//    private mutating func nameChanged() {
+//        print("New fullname is:", fullName)
+//    }
+//
+//    private mutating func ageChanged() {
+//        let year = Calendar.current.component(.year, from: Date())
+//        birthYear = year - age
+//    }
+//}
+//
+//// didSet and willSet will not to be called when initializing
+//var person = Person(fullname: "TA2LSM", age: 39)
+//print(person)
+//
+//person.fullName = "test"
+//person.age = 40
+//print(person)
+
+
+
+//--- 15. NESTED TYPES ---
+
+//struct Game {
+//    enum Status {
+//        case playing, paused, finished
+//    }
+//
+//    struct Card {
+//        var letter: String
+//    }
+//
+//    var status: Status = .paused        // default init: paused
+//}
+//
+////let testStatus: Game.Status = .playing
+//
+//// member-wise
+//var game = Game()
+//print(game)
+//
+//// typealias
+////typealias Status = Game.Status
+////Game.Status.finished >> Status.finished
+//
+//// Emoji access: cmd + ctrl + space
+//typealias 🃏 = Game.Card
+//// These two are same below
+////Game.Card(letter: "Hearts")
+////🃏(letter: "Hearts")
+//
+////print(game)
+
+
+
+//--- 16. CLASS ---
 
