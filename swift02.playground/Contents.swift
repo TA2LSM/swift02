@@ -202,19 +202,19 @@ import Foundation
 
 //--- 16. CLASS ---
 
-class Game {
-    private (set) var status: String = ""
-    private (set) var currentPlayer: String = "player1"
-    private (set) var level: Int = -1
-    
-    func changePlayer() {
-        if currentPlayer == "player1" {
-            currentPlayer = "player2"
-        } else {
-            currentPlayer = "player1"
-        }
-    }
-}
+//class Game {
+//    private (set) var status: String = ""
+//    private (set) var currentPlayer: String = "player1"
+//    private (set) var level: Int = -1
+//
+//    func changePlayer() {
+//        if currentPlayer == "player1" {
+//            currentPlayer = "player2"
+//        } else {
+//            currentPlayer = "player1"
+//        }
+//    }
+//}
 
 //let game = Game()       // new game. "let" means game's memory address is fixed not member's values in the class
 //let game2 = game        // reference type copy NOT like struct (value type, copy on write)
@@ -256,7 +256,7 @@ class Game {
 //print(db1, db2)             // db1 and db2 are different values
 //
 //// reference type copy (this part is not in the lesson)
-//var db3: UnsafeMutablePointer<Double> = .init(&db1)        // like this >> double db3 = &db1
+//var db3: UnsafeMutablePointer<Double> = .init(&db1)        // like this >> double *db3 = &db1
 //db3.pointee = 2.0
 //print("db1 memory address: \(UnsafeRawPointer(&db1)) and value: \(db1)")
 //print("db3 memory address: \(UnsafeRawPointer(&db3)), reference: \(db3) and value: \(db3.pointee)")
@@ -278,3 +278,76 @@ class Game {
 
 
 //--- 17. DEINITIALIZATION ---
+
+// instance: the structure/object which is generated from class, struct ..etc
+// Needs to memory cleanup
+
+// "static" cannot to be used in the global scope. Used in enum for make it easy
+enum Constant {
+    static let family = Family()
+}
+
+class Family {
+    var names: [String] = [] {
+        didSet {
+            print("names updateded for \(names)")
+        }
+    }
+    
+    func add(person: Person) {
+        names.append(person.name)
+    }
+    
+    func remove(person: Person) {
+        // assume that names are unique
+        if let idx = names.firstIndex(of: person.name) {
+            names.remove(at: Int(idx))
+        }
+    }
+}
+
+class Person {
+    let name: String
+    
+    init(name: String) {
+        print("initialized")
+        self.name = name
+        Constant.family.add(person: self)               // not safe just for an example
+    }
+    
+    // when arc == 0
+    deinit {
+        print("deinitialized for \(name)")
+        Constant.family.remove(person: self)            // not safe just for an example
+    }
+}
+
+// ARC (automated reference counting)
+//var person: Person?                 // for deinitializing this is an optional definition
+//var person2: Person?
+//var person3: Person?
+//
+//person = Person(name: "TA2LSM")     // arc = 1 (for person)
+////person = nil                      // arc = arc - 1 (for person) >> 0 : there is no "person" anymore
+//// OR
+//person2 = person                    // arc = 2 (for person)
+//person = nil                        // arc = arc - 1 (for person)
+//person2 = nil                       // arc = arc - 1 (for person) >> 0
+//
+//person3 = Person(name: "test")      // arc = 1 (for person3)
+//person3 = nil
+
+//Person(name: "test")                // directly deinit
+
+var person1: Person? = Person(name: "ahmet")
+var person2: Person? = Person(name: "semih")
+var person3: Person? = Person(name: "senol")
+
+// person2 passed away...
+person2 = nil
+//print()
+
+
+
+//--- 18. INHERITANCE ---
+
