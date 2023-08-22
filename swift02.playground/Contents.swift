@@ -480,7 +480,7 @@ import Foundation
 
 
 //extension Int {
-//    static var defaultMargin: Int {     // static keyword used for Int "type"
+//    static var defaultMargin: Int {     // static keyword used for Int "type" (built in types)
 //        // no "self" here!
 //        return 8
 //    }
@@ -532,5 +532,205 @@ import Foundation
 
 //--- 20. PROTOCOLS ---
 
-// like interfaces
+// like interface, schema, contract: rules must be obeyed by classes, structs, enums ...etc
+// requirements for properties, functions...
+//
+//protocol protPerson {
+//    var name: String { get set }
+//    var age: Int { get set }
+//
+////    var number: Int { get set }             // * 1 *
+//    var number: Int { get }                 // * 2 *
+//
+////    func func1()
+//}
+//
+//// person class "conforms" to protPerson
+//class Person: protPerson {
+//    var name: String                        // this MUST be the same access level with its own protocol
+//    var age: Int
+////    private(set) var number: Int          // not allowed for * 1 *
+//    private(set) var number: Int            // private(set) >> number only be set internally
+//
+//    init(name: String, age: Int? = 0, number: Int) {
+//        self.name = name
+//        self.age = age!
+//        self.number = number
+//    }
+//
+////    func func1() {
+////
+////    }
+//}
+//
+//class Animal: protPerson {
+//    var name: String                        // this MUST be the same access level with its own protocol
+//    var age: Int
+////    private(set) var number: Int          // not allowed for * 1 *
+//    private(set) var number: Int            // private(set) >> number only be set internally
+//
+//    init(name: String, age: Int? = 1, number: Int) {
+//        self.name = name
+//        self.age = age!
+//        self.number = number
+//    }
+//
+////    func func1() {
+////
+////    }
+//}
+//
+//var person1 = Person(name: "TA2LSM", age: 0, number: 1764)
+////print(person1.age)
+////print(person1.number)
+////person1.age = 2                     // not allowed !!!
+////person1.number = 200                // not allowed
+//
+//if let isProtOk = person1 as? protPerson {
+////    print("suitable for protocol")
+//
+////    isProtOk unwrapped to protPerson
+//    print(isProtOk.number)
+//}
+//
+////let protPersonArray: [Person] = [
+////    Person(name: "ali", number: 23),
+////    Person(name: "veli", number: 56),
+//////    Animal(name: "cat", number: 345)      // not allowed !!
+////]
+////print(protPersonArray[1].age)
+//
+//let protPersonArray: [protPerson] = [
+//    Person(name: "ali", number: 23),
+//    Person(name: "veli", number: 56),
+//    Animal(name: "cat", number: 345)      // allowed
+//]
+//print(protPersonArray[2].age)
+//
+//protPersonArray.first?.number
+//protPersonArray.first?.age
+////...
+
+
+//protocol protPerson {
+//    var number: Int { get }
+//
+//    func func1()
+//}
+//
+//class Person: protPerson {
+//    var number: Int                 // stored values MUST be in class
+//
+//    init(number: Int) {
+//        self.number = number
+//    }
+//}
+//
+//extension Person {
+//    func func1() {
+//        print("extension function called with number \(number)" )
+//    }
+//}
+//var person1 = Person(number: 13)
+//person1.func1()
+
+
+//protocol Printable {
+//    func myPrint()
+//}
+//protocol Multipliable {
+//    func multiply() -> Int
+//}
+//
+//extension Int: Printable, Multipliable {
+//    func multiply() -> Int {
+//        return self * self
+//    }
+//
+//    func myPrint() {
+//        print("printing integer: \(self)")
+//    }
+//}
+//
+//extension Double: Printable {
+//    func myPrint() {
+//        print("printing double: \(self)")
+//    }
+//}
+
+//3 as? Printable
+//3.0 as? Printable
+//3.myPrint()
+//(0.002).myPrint()
+//2.multiply()
+
+
+//protocol Breathing {
+//
+//}
+//
+//class Animal {
+//
+//}
+//
+//class Human: Animal, Breathing {
+//
+//}
+
+
+//protocol Cooler {
+//    var model: String { get }
+//    var temp: Double { get set }
+//
+//    func cool(it: String)
+////    func printModel()
+//}
+//
+//// Protocol Extension
+//extension Cooler {
+//    func printModel() {
+//        print("The model is: \(model)")
+//    }
+//}
+//
+//class Fridge: Cooler {
+//    var model: String
+//    var temp: Double
+//
+//    init(model: String, temp: Double) {
+//        self.model = model
+//        self.temp = temp
+//    }
+//
+//    func cool(it: String) {
+//        //check the door
+//    }
+//
+//    // override comment this method and check again...
+////    func printModel() {
+////        //...
+////    }
+//}
+//
+//class Truck: Cooler {
+//    var model: String
+//    var temp: Double
+//
+//    init(model: String, temp: Double) {
+//        self.model = model
+//        self.temp = temp
+//    }
+//
+//    func cool(it: String) {
+//        //start engine, lock the doors
+//    }
+//}
+//
+//let fridge = Fridge(model: "Siemens", temp: 4.5)
+//fridge.cool(it: "beer")
+//fridge.printModel()
+
+
+
+//--- 21. EQUATABLE & HASHABLE ---
 
