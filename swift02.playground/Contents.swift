@@ -458,3 +458,79 @@ import Foundation
 
 //--- 19. EXTENSION ---
 
+// adding new properties to some class or struct later
+//struct Person {
+//    let name: String
+//    let surname: String
+//}
+//
+//extension Person {
+//    var fullname: String {
+//        return "\(name) \(surname)"
+//    }
+//
+//    //let age: Int                          // new stored variable CAN NOT to be added!
+//
+//    func printFullname() {
+//        print("\(fullname)")
+//    }
+//}
+//let person1 = Person(name: "ali", surname: "aslan")
+//person1.printFullname()
+
+
+//extension Int {
+//    static var defaultMargin: Int {     // static keyword used for Int "type"
+//        // no "self" here!
+//        return 8
+//    }
+//
+//    var square: Int {                   // just var keyword used for int "instance variable"
+//        return self * self
+//    }
+//}
+//Int.defaultMargin
+//Int.random(in: 0..<100)
+
+//let x: Int = 4
+//x.square
+//print(4.square)
+
+//extension Date {
+//    static func random() -> Date {
+////        return Date().addingTimeInterval(Double.random(in: 0...1000))
+////        Date().addingTimeInterval(Double.random(in: 0...1000))      // add ramdom value to current time
+//        Date(timeIntervalSince1970: Double.random(in: 0...1000000000))
+//    }
+//}
+//Date.random()
+
+//extension String {
+//    func subString(from: Int, to: Int) -> String {
+//        let startIdx = self.index(self.startIndex, offsetBy: from)
+//        let stopIdx = self.index(self.startIndex, offsetBy: to)
+//        return String(self[startIdx...stopIdx])
+//    }
+//
+//    func subString(range: ClosedRange<Int>) -> String {
+//        let startIdx = self.index(self.startIndex, offsetBy: range.lowerBound)
+//        let stopIdx = self.index(self.startIndex, offsetBy: range.upperBound)
+//        return String(self[startIdx...stopIdx])
+//    }
+//
+//    // subscript
+//    subscript(index: Int) -> Character {
+//        let index = self.index(self.startIndex, offsetBy: index)    // int to index
+//        return self[index]
+//    }
+//}
+//"test string".subString(from: 3, to: 8)
+//"test string".subString(range: 3...8)
+//"test string"[9]
+
+
+
+//--- 20. PROTOCOLS ---
+
+// like interfaces
+
