@@ -112,6 +112,7 @@ import Foundation
 //person.yearPassed()
 //print(person)
 
+// struct's has no "inheritance" feature also ne "init" and "deinit"
 
 
 //--- 14. PROPERTY OBSERVERS ---
@@ -283,71 +284,177 @@ import Foundation
 // Needs to memory cleanup
 
 // "static" cannot to be used in the global scope. Used in enum for make it easy
-enum Constant {
-    static let family = Family()
-}
-
-class Family {
-    var names: [String] = [] {
-        didSet {
-            print("names updateded for \(names)")
-        }
-    }
-    
-    func add(person: Person) {
-        names.append(person.name)
-    }
-    
-    func remove(person: Person) {
-        // assume that names are unique
-        if let idx = names.firstIndex(of: person.name) {
-            names.remove(at: Int(idx))
-        }
-    }
-}
-
-class Person {
-    let name: String
-    
-    init(name: String) {
-        print("initialized")
-        self.name = name
-        Constant.family.add(person: self)               // not safe just for an example
-    }
-    
-    // when arc == 0
-    deinit {
-        print("deinitialized for \(name)")
-        Constant.family.remove(person: self)            // not safe just for an example
-    }
-}
-
-// ARC (automated reference counting)
-//var person: Person?                 // for deinitializing this is an optional definition
-//var person2: Person?
-//var person3: Person?
+//enum Constant {
+//    static let family = Family()
+//}
 //
-//person = Person(name: "TA2LSM")     // arc = 1 (for person)
-////person = nil                      // arc = arc - 1 (for person) >> 0 : there is no "person" anymore
-//// OR
-//person2 = person                    // arc = 2 (for person)
-//person = nil                        // arc = arc - 1 (for person)
-//person2 = nil                       // arc = arc - 1 (for person) >> 0
+//class Family {
+//    var names: [String] = [] {
+//        didSet {
+//            print("names updateded for \(names)")
+//        }
+//    }
 //
-//person3 = Person(name: "test")      // arc = 1 (for person3)
-//person3 = nil
-
-//Person(name: "test")                // directly deinit
-
-var person1: Person? = Person(name: "ahmet")
-var person2: Person? = Person(name: "semih")
-var person3: Person? = Person(name: "senol")
-
-// person2 passed away...
-person2 = nil
-//print()
+//    func add(person: Person) {
+//        names.append(person.name)
+//    }
+//
+//    func remove(person: Person) {
+//        // assume that names are unique
+//        if let idx = names.firstIndex(of: person.name) {
+//            names.remove(at: Int(idx))
+//        }
+//    }
+//}
+//
+//class Person {
+//    let name: String
+//
+//    init(name: String) {
+//        print("initialized")
+//        self.name = name
+//        Constant.family.add(person: self)               // not safe just for an example
+//    }
+//
+//    // when arc == 0
+//    deinit {
+//        print("deinitialized for \(name)")
+//        Constant.family.remove(person: self)            // not safe just for an example
+//    }
+//}
+//
+//// ARC (automated reference counting)
+////var person: Person?                 // for deinitializing this is an optional definition
+////var person2: Person?
+////var person3: Person?
+////
+////person = Person(name: "TA2LSM")     // arc = 1 (for person)
+//////person = nil                      // arc = arc - 1 (for person) >> 0 : there is no "person" anymore
+////// OR
+////person2 = person                    // arc = 2 (for person)
+////person = nil                        // arc = arc - 1 (for person)
+////person2 = nil                       // arc = arc - 1 (for person) >> 0
+////
+////person3 = Person(name: "test")      // arc = 1 (for person3)
+////person3 = nil
+//
+////Person(name: "test")                // directly deinit
+//
+//var person1: Person? = Person(name: "ahmet")
+//var person2: Person? = Person(name: "semih")
+//var person3: Person? = Person(name: "senol")
+//
+//// person2 passed away...
+//person2 = nil
+////print()
 
 
 
 //--- 18. INHERITANCE ---
+
+// super class -> subclass -> [base class]
+
+//class Person {
+//    var name: String
+//
+//    var charCount: Int {
+//        return name.count
+//    }
+//
+//    init (name: String) {
+//        self.name = name
+//    }
+//
+//    func sayHello() {
+//        print("Hello I'm base person class with name: \(name)")
+//    }
+//}
+//var person1 = Person(name: "ali")
+//person1.sayHello()
+//person1.charCount
+
+//class Human: Person {
+//    var age: Int
+//
+//    override var charCount: Int {
+//        return -1
+//    }
+//
+//    init(name: String, age: Int) {
+//        self.age = age                               // needs to be initialized "before" super.init
+//        super.init(name: name)
+//    }
+//
+//    override var name: String {
+//        didSet {
+//            print("name is changed to \(name)")
+//        }
+//    }
+//
+//    func walk() {
+//        //sayHello()                                // super.sayHello()
+//        print("\(name) is walking...")              // super.name
+//    }
+//
+//    // human's sayHello is different from super class (override)
+//    override func sayHello() {
+//        super.sayHello()                            // if prints sayHello() causes infinite loop
+//        print("Hello I'm human named \(name)")
+//    }
+//}
+//
+//var human1 = Human(name: "veli", age: 23)
+//human1.sayHello()
+//human1.walk()
+//human1.name = "test"
+//print(human1.age)
+
+
+//class Person {
+//    final let name: String
+//
+//    init (name: String) {
+//        self.name = name
+//    }
+//
+//    final func sayHello() {
+//        print("Hello I'm base person class with name: \(name)")
+//    }
+//}
+//
+//// "Human" class CAN NOT to be used as an inheritance because of "final" keyword
+//final class Human: Person {
+//    let parentName: String
+//
+//    // CAN NOT to be observed because of "final" keyword in "Person" class
+////    override name: String {
+////        didSet {
+////
+////        }
+////    }
+//
+//    init(name: String, parentName: String) {
+//        self.parentName = parentName
+//        super.init(name: name)
+//    }
+//
+//    // CAN NOT to be override because of "final" keyword in "Person" class
+////    override func sayHello() {
+////        print("Hello I'm human")
+////    }
+//
+//    func walk() {
+//        print("\(name) is walking...")              // super.name
+//    }
+//}
+//var human1 = Human(name: "ali", parentName: "ayse")
+//human1.sayHello()
+//print("Human1 > name: \(human1.name), parent name: \(human1.parentName)")
+//human1.walk()
+
+// There is no "multiple inheritance" in swift
+
+
+
+//--- 19. EXTENSION ---
 
