@@ -872,3 +872,168 @@ import Foundation
 
 //--- 22. ERROR HANDLING ---
 
+// throws
+//struct Person {
+//    let age: Int
+//    let name: String
+//}
+//
+//struct Community {
+//    let acceptedAge: Int
+//    let acceptedName: String
+//
+//    func enter(person: Person) -> Bool {
+//        if person.name == acceptedName, person.age == acceptedAge {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
+//}
+//let community = Community(acceptedAge: 20, acceptedName: "ali")
+//let person1 = Person(age: 20, name: "ali")
+//let person2 = Person(age: 23, name: "ali")
+//let person3 = Person(age: 20, name: "veli")
+//
+//community.enter(person: person1)
+//community.enter(person: person2)
+//community.enter(person: person3)
+
+
+//enum EntranceError: Error {
+//    case ageNotSuitable, nameNotSuitable
+//}
+//
+//struct Person {
+//    let age: Int
+//    let name: String
+//}
+//
+//struct Community {
+//    let acceptedAge: Int
+//    let acceptedName: String
+//
+//    func enter(person: Person) throws {
+//        if person.name != acceptedName {
+//            throw EntranceError.nameNotSuitable
+//        }
+//
+//        if person.age != acceptedAge {
+//            throw EntranceError.ageNotSuitable
+//        }
+//
+//        // custom error
+//        //throw NSError(domain: "", code: -1)
+//    }
+//}
+//let community = Community(acceptedAge: 20, acceptedName: "ali")
+//let person1 = Person(age: 20, name: "ali")
+//let person2 = Person(age: 23, name: "ali")
+//let person3 = Person(age: 20, name: "veli")
+//
+////func testPersons() throws {
+////    try community.enter(person: person1)
+////    try community.enter(person: person2)
+////    try community.enter(person: person3)
+////}
+////
+////// error handled by user who calls this function
+////do {
+////    try testPersons()
+////} catch {
+////
+////}
+//
+//// Error handled by user who wrote this function
+//func testPersons() {
+//    do {
+//        try community.enter(person: person1)
+//        print("There is no error for person 1")
+//    } catch (let error) {
+//        print("person1 is not suitable. Reason \(error)")
+//    }
+//
+//    do {
+//        try community.enter(person: person2)
+//    } catch EntranceError.ageNotSuitable {
+//        print("Error: person2's age is not suitable...")
+//    } catch {
+//        // for other error types OR add "throws" to this function
+//        // and give error handling to the user who calls this function
+//        print("Some other errors...")
+//    }
+//
+//    do {
+//        try community.enter(person: person2)
+////        try community.enter(person: person3)
+//
+//        // if try failes "this point and beyond" will never be executed
+//        print("There is no error for person 2")
+//    } catch {
+//        print("person2 is not suitable. Reason \(error)")
+//    }
+//
+//    do {
+//        try community.enter(person: person3)
+//        print("There is no error for person 3")
+//    } catch {
+//        print("person3 is not suitable. Reason \(error)")
+//    }
+//
+////    try? community.enter(person: person2)           // ignore error (not recommended)
+////    try! community.enter(person: person3)           // this will never gives an error (not recommended)
+//}
+//testPersons()
+
+
+enum EntranceError: Error {
+    case ageNotSuitable, nameNotSuitable
+}
+
+struct Person {
+    let age: Int
+    let name: String
+}
+
+struct Community {
+    let acceptedAge: Int
+    let acceptedName: String
+    var participants: [String] = []
+    
+    mutating func enter(person: Person) throws {
+        if person.name != acceptedName {
+            throw EntranceError.nameNotSuitable
+        }
+        
+        if person.age != acceptedAge {
+            throw EntranceError.ageNotSuitable
+        }
+        
+        participants.append(person.name)
+    }
+    
+    func generateNames() throws -> String {
+        if participants.isEmpty {
+            throw NSError(domain: "", code: -1)
+        }
+        
+        return participants.joined()
+    }
+}
+var community = Community(acceptedAge: 20, acceptedName: "ali")
+let person1 = Person(age: 20, name: "ali")
+
+// uncomment this code below and try again
+//do {
+//    try community.enter(person: person1)
+//    print("There is no problem with the person 1")
+//} catch (let error) {
+//    print("person1 is not suitable. Reason \(error)")
+//}
+
+do {
+    let names = try community.generateNames()
+    print(names)
+} catch {
+    print("there is no participants!")
+}
