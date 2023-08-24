@@ -115,8 +115,8 @@ import Foundation
 // struct's has no "inheritance" feature also ne "init" and "deinit"
 
 
-//--- 14. PROPERTY OBSERVERS ---
 
+//--- 14. PROPERTY OBSERVERS ---
 
 //struct Person {
 //    // MARK: 1. public variables
@@ -732,5 +732,143 @@ import Foundation
 
 
 
-//--- 21. EQUATABLE & HASHABLE ---
+//--- 21. EQUATABLE & HASHABLE & COMPARABLE ---
+
+// == !=
+// Equatable available for Int, Bool, String ...etc Check documenttaion
+//let isEqual = 1 == 3
+//let x = "a" != "b"
+//
+//let numbers: [Int] = [1, 3, 5, 7]
+//numbers.contains { number in
+//    return number == 3
+//}
+//// OR
+//numbers.contains(5)
+
+
+// EQUATABLE
+
+//class Reader: Equatable {
+//    let id: Int
+//
+//    init(id: Int) {
+//        self.id = id
+//    }
+//
+//    // special function for classes due to equability (auto fix solution)
+//    static func == (lhs: Reader, rhs: Reader) -> Bool {
+//        <#code#>
+//    }
+//}
+
+// If all stored properties are conforming to equability, Person will also conform to equability
+//struct Person: Equatable {
+//    let id: Int
+//    let name: String
+//
+//    // this func MUST be static
+//    static func == (lhs: Person, rhs: Person) -> Bool {
+//        return lhs.id == rhs.id
+//    }
+//}
+//let person1 = Person(id: 1, name: "ali")
+//let person2 = Person(id: 1, name: "veli")
+//person1 == person2      // because of "Person: Equatable" this can be used
+
+//enum HTTPStatus: Equatable {
+//    case fail(code: Int)
+//    case success
+//}
+//
+//HTTPStatus.fail(code: -1) == HTTPStatus.fail(code: -2)
+
+//struct Person {
+//    let id: Int
+//    let name: String
+//}
+//let person1 = Person(id: 1, name: "ali")
+//let person2 = Person(id: 1, name: "veli")
+//let people = [person1, person2]
+//
+//people.contains { p in
+//    return p.name == "ali"
+//}
+
+//struct Person : Equatable {
+//    let id: Int
+//    let name: String
+//
+////    static func == (lhs: Person, rhs: Person) -> Bool {
+////        lhs.name == rhs.name
+////    }
+//}
+//let person1 = Person(id: 1, name: "ali")
+//let person2 = Person(id: 1, name: "veli")
+//let people = [person1, person2]
+//
+//people.contains(Person(id: -1, name: "ali"))        // False without func == in the struct above
+
+
+//// HASHABLE: hashmap, set, dictionary
+
+//let dic: [String: Int] = ["ali": 10, "ahmet": 15]
+//// when accessing "ali" like that, it is very fast. Because there is a hash value for "ali" member
+//// in the memory so we can access this element of dictionary very fast (key value of dic MUST be hashable
+//// for this operation)
+//dic["ali"]
+
+//struct Person : Hashable {
+//    let id: Int
+//    let name: String
+//
+//    // write order of key values above is important
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(id)
+//    }
+//}
+
+//let dic: [Person: Int] = [Person(id: 1, name: "ali"): 10]
+//dic[Person(id: 1, name: "ali")]            // 10
+
+
+// COMPARABLE
+
+//struct Person {
+//    let id: Int
+//    let name: String
+//}
+//
+//let people: [Person] = [
+//    Person(id: 25, name: "ali"),
+//    Person(id: 10, name: "veli")
+//]
+//
+//let sortedArray = people.sorted { p1, p2 in
+//    p1.id < p2.id
+//}
+//print(sortedArray)
+
+// OR
+
+//struct Person : Comparable {
+//    let id: Int
+//    let name: String
+//
+//    static func < (lhs: Person, rhs: Person) -> Bool {
+//        lhs.id < rhs.id
+//    }
+//}
+//
+//let people: [Person] = [
+//    Person(id: 25, name: "ali"),
+//    Person(id: 10, name: "veli")
+//]
+//
+//let sortedArray = people.sorted()
+//print(sortedArray)
+
+
+
+//--- 22. ERROR HANDLING ---
 
